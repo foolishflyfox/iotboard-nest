@@ -4,14 +4,23 @@ import {
   Get,
   Header,
   HttpCode,
+  Inject,
   Param,
   Post,
   Redirect,
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { CatsService } from './cats.service';
 
 @Controller('cats')
 export class CatsController {
+  // 构造函数注入，推荐使用
+  constructor(private catsService: CatsService) {}
+
+  // 属性注入
+  //   @Inject()
+  //   private readonly catsService: CatsService;
+
   @Post()
   create(): string {
     return 'this action adds a new cat';
@@ -19,10 +28,8 @@ export class CatsController {
 
   @Get()
   @HttpCode(201) // 设置返回值的状态码
-  findAll(): any {
-    return {
-      tom: { age: 11, weight: 5 },
-    };
+  findAll() {
+    return this.catsService.findAll();
   }
 
   @Get('ab*cd') // 使用通配符路由，仅 express 支持路由中间的通配符
@@ -55,6 +62,7 @@ export class CatsController {
   @Post('createCat')
   createCat(@Body() dto: CreateCatDto) {
     // 发送时指定 --header 'content-type: application/json' 才能被正常接收
+    this.catsService.create(dto);
     return `createCat: name = ${dto.name}, age = ${dto.age}, breed = ${dto.breed}`;
   }
 }
