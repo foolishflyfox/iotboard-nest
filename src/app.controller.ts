@@ -12,7 +12,7 @@ export class AppController {
   @Get()
   getHello() {
     // return this.appService.getHello();
-    console.log(this.catsService);
+    // console.log(this.catsService);
     return this.catsService.findAll();
   }
 }
