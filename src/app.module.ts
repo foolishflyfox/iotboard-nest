@@ -14,11 +14,16 @@ import {
 } from './common/middleware/logger.middleware';
 import { RouteInfo } from '@nestjs/common/interfaces';
 import { CatsController } from './cats/cats.controller';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 @Module({
   imports: [CatsModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

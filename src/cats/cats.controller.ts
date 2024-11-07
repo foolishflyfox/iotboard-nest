@@ -4,15 +4,21 @@ import {
   Get,
   Header,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Inject,
   Param,
   Post,
   Redirect,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
+import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 
 @Controller('cats')
+// @UseFilters(new HttpExceptionFilter())
+// @UseFilters(HttpExceptionFilter)
 export class CatsController {
   // 构造函数注入，推荐使用
   constructor(private catsService: CatsService) {}
@@ -64,5 +70,13 @@ export class CatsController {
     // 发送时指定 --header 'content-type: application/json' 才能被正常接收
     this.catsService.create(dto);
     return `createCat: name = ${dto.name}, age = ${dto.age}, breed = ${dto.breed}`;
+  }
+
+  @Get('throw')
+  // @UseFilters(new HttpExceptionFilter())
+  // 尽可能使用类而不是示例来应用过滤器，它减少了内存使用量，因为 Nest 可以轻松地在整个模块中重用同一类的实例
+  // @UseFilters(HttpExceptionFilter)
+  throwException() {
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
   }
 }
