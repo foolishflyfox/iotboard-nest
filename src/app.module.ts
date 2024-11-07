@@ -18,9 +18,18 @@ import { CatsController } from './cats/cats.controller';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { FileSystemModule } from './file-system/file-system.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from 'src/config/configuration';
 
 @Module({
-  imports: [CatsModule, FileSystemModule],
+  imports: [
+    CatsModule,
+    FileSystemModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
