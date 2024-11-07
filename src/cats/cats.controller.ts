@@ -22,6 +22,7 @@ import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { ToHexPipe } from 'src/common/pipe/to-hex.pipe';
 import { IsNotEmpty } from 'class-validator';
 import { NotEmptyPipe } from 'src/common/pipe/not-empty.pipe';
+import { ConfigService } from '@nestjs/config';
 // import { ValidationPipe } from 'src/common/pipe/validation.pipe';
 
 @Controller('cats')
@@ -29,7 +30,10 @@ import { NotEmptyPipe } from 'src/common/pipe/not-empty.pipe';
 // @UseFilters(HttpExceptionFilter)
 export class CatsController {
   // 构造函数注入，推荐使用
-  constructor(private catsService: CatsService) {}
+  constructor(
+    private catsService: CatsService,
+    private configService: ConfigService,
+  ) {}
 
   // 属性注入
   //   @Inject()
@@ -125,5 +129,10 @@ export class CatsController {
     @Query('age', new DefaultValuePipe(6), ParseIntPipe) age: number,
   ) {
     return `set ${name} to ${age} years old`;
+  }
+
+  @Get('config/http/:field')
+  getHttpConfig(@Param('field') field: string) {
+    return this.configService.get<string>(`http.${field}`);
   }
 }

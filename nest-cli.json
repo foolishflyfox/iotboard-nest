@@ -6,7 +6,8 @@
     "deleteOutDir": true,
     "assets": [
       {
-        "include": "*.yaml"
+        "include": "../config/*.yaml",
+        "outDir": "./dist/config"
       }
     ]
   }
