@@ -3,6 +3,7 @@ import {
   Module,
   NestModule,
   RequestMethod,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,7 +15,7 @@ import {
 } from './common/middleware/logger.middleware';
 import { RouteInfo } from '@nestjs/common/interfaces';
 import { CatsController } from './cats/cats.controller';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 @Module({
@@ -23,6 +24,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
   providers: [
     AppService,
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_PIPE, useClass: ValidationPipe },
   ],
 })
 export class AppModule implements NestModule {

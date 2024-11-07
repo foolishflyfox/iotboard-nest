@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Get,
   Header,
   HttpCode,
@@ -8,13 +9,20 @@ import {
   HttpStatus,
   Inject,
   Param,
+  ParseIntPipe,
   Post,
+  Query,
   Redirect,
   UseFilters,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
+import { ToHexPipe } from 'src/common/pipe/to-hex.pipe';
+import { IsNotEmpty } from 'class-validator';
+import { NotEmptyPipe } from 'src/common/pipe/not-empty.pipe';
+// import { ValidationPipe } from 'src/common/pipe/validation.pipe';
 
 @Controller('cats')
 // @UseFilters(new HttpExceptionFilter())
@@ -78,5 +86,44 @@ export class CatsController {
   // @UseFilters(HttpExceptionFilter)
   throwException() {
     throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+  }
+
+  @Get('findOne/:id')
+  // 添加 ParseIntPipe 对请求参数进行转换
+  // 如果转换失败，将抛出异常，并将阻止方法主体的执行
+  findOne(
+    // @Param('id', ParseIntPipe)
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
+    )
+    id: any,
+  ) {
+    console.log(typeof id);
+    return `id + 5 = ${id + 5}`;
+  }
+
+  @Get('findOne')
+  findOneV2(@Query('id', ParseIntPipe) id: number) {
+    return `id + 10 = ${id + 10}`;
+  }
+
+  @Post('validate')
+  validate(@Body('id', ValidationPipe) id: number) {
+    return `validate ${id}`;
+  }
+
+  @Get('toHex')
+  toHex(@Query('age', ToHexPipe) age: number) {
+    return 'age = ' + age;
+  }
+
+  /** 提供默认值的管道 demo */
+  @Get('setAge')
+  setAge(
+    @Query('name', NotEmptyPipe) name: string,
+    @Query('age', new DefaultValuePipe(6), ParseIntPipe) age: number,
+  ) {
+    return `set ${name} to ${age} years old`;
   }
 }
