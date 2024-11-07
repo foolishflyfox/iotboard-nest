@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { logger } from './common/middleware/logger.middleware';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import * as fs from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,5 +13,7 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
   console.log('server run on port:', port);
   await app.listen(port);
+  // fs.writeFile('aaa', 'abcd', () => {});
+  // const r = fs.existsSync('app-data/displays');
 }
 bootstrap();

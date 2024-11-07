@@ -17,9 +17,10 @@ import { RouteInfo } from '@nestjs/common/interfaces';
 import { CatsController } from './cats/cats.controller';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { FileSystemModule } from './file-system/file-system.module';
 
 @Module({
-  imports: [CatsModule],
+  imports: [CatsModule, FileSystemModule],
   controllers: [AppController],
   providers: [
     AppService,
