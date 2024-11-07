@@ -18,11 +18,9 @@ import {
 } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
-import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { ToHexPipe } from 'src/common/pipe/to-hex.pipe';
-import { IsNotEmpty } from 'class-validator';
 import { NotEmptyPipe } from 'src/common/pipe/not-empty.pipe';
-import { ConfigService } from '@nestjs/config';
+import { AppConfigService } from 'src/app-config/app-config.service';
 // import { ValidationPipe } from 'src/common/pipe/validation.pipe';
 
 @Controller('cats')
@@ -32,7 +30,7 @@ export class CatsController {
   // 构造函数注入，推荐使用
   constructor(
     private catsService: CatsService,
-    private configService: ConfigService,
+    private appConfigService: AppConfigService,
   ) {}
 
   // 属性注入
@@ -131,13 +129,13 @@ export class CatsController {
     return `set ${name} to ${age} years old`;
   }
 
-  @Get('config/http/:field')
-  getHttpConfig(@Param('field') field: string) {
-    return this.configService.get<string>(`http.${field}`);
+  @Get('config/server')
+  getHttpConfig() {
+    return this.appConfigService.getServer();
   }
 
-  @Get('env/databaseUser')
-  getDatabaseUser() {
-    return this.configService.get<string>('DATABASE_USER');
-  }
+  // @Get('env/databaseUser')
+  // getDatabaseUser() {
+  //   return this.configService.get<string>('DATABASE_USER');
+  // }
 }
