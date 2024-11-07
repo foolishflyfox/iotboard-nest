@@ -135,4 +135,9 @@ export class CatsController {
   getHttpConfig(@Param('field') field: string) {
     return this.configService.get<string>(`http.${field}`);
   }
+
+  @Get('env/databaseUser')
+  getDatabaseUser() {
+    return this.configService.get<string>('DATABASE_USER');
+  }
 }
