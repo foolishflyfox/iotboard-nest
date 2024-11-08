@@ -1,7 +1,6 @@
-import { ModuleRef, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { logger } from './common/middleware/logger.middleware';
-import * as fs from 'fs';
 import { AppConfigService } from './app-config/app-config.service';
 
 async function bootstrap() {
@@ -16,7 +15,5 @@ async function bootstrap() {
   const port = appConfigService.getServer().port ?? 3000;
   console.log('server run on port:', port);
   await app.listen(port);
-  // fs.writeFile('aaa', 'abcd', () => {});
-  // const r = fs.existsSync('app-data/displays');
 }
 bootstrap();

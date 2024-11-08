@@ -2,18 +2,15 @@ import {
   MiddlewareConsumer,
   Module,
   NestModule,
-  RequestMethod,
   ValidationPipe,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import { CatsService } from './cats/cats.service';
 import {
   logger,
   LoggerMiddleware,
 } from './common/middleware/logger.middleware';
-import { RouteInfo } from '@nestjs/common/interfaces';
 import { CatsController } from './cats/cats.controller';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
