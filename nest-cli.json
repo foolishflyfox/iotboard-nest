@@ -8,6 +8,10 @@
       {
         "include": "../app-config/*.yaml",
         "outDir": "./dist/app-config"
+      },
+      {
+        "include": "../app-data/**/*",
+        "outDir": "./dist/app-data"
       }
     ]
   }

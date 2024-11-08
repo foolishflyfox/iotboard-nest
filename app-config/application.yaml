@@ -1,3 +1,6 @@
 server:
   port: 3000
+data:
+  # 存放应用数据的文件夹地址
+  path: app-data
 

@@ -19,9 +19,10 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { FileSystemModule } from './file-system/file-system.module';
 import { AppConfigModule } from './app-config/app-config.module';
+import { MimicFileModule } from './mimic-file/mimic-file.module';
 
 @Module({
-  imports: [CatsModule, FileSystemModule, AppConfigModule],
+  imports: [CatsModule, FileSystemModule, AppConfigModule, MimicFileModule],
   controllers: [AppController],
   providers: [
     AppService,
