@@ -21,6 +21,7 @@ export class MimicFileService {
     const rootTree = this.fileSystemService.traverseFileTree(
       this.getRootDir(fileType),
       [this.fileSystemService.createIncludeExtFilter('json')],
+      (filePath) => path.join(...filePath.split(path.sep).slice(2)),
     );
     return rootTree?.children || [];
   }

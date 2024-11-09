@@ -21,19 +21,22 @@ export class FileSystemService {
   traverseFileTree(
     startPath: string,
     filters?: ((filename: string) => boolean)[],
+    pathProcessor?: (filePath: string) => string,
   ): FileTreeNode | null {
     if (!fs.existsSync(startPath)) {
       return null;
     }
     const basename = path.basename(startPath);
+    const curPath = pathProcessor ? pathProcessor(startPath) : startPath;
     const stat = fs.statSync(startPath);
     if (stat.isDirectory()) {
       const subItems = fs.readdirSync(startPath);
       return {
         name: basename,
+        path: curPath,
         children: subItems
           .map((f) => path.join(startPath, f))
-          .map((f) => this.traverseFileTree(f, filters)!)
+          .map((f) => this.traverseFileTree(f, filters, pathProcessor)!)
           .filter((f) => f !== null),
       };
     }
@@ -41,7 +44,7 @@ export class FileSystemService {
     for (const filter of filters || []) {
       if (!filter(basename)) return null;
     }
-    return { name: basename };
+    return { name: basename, path: curPath };
   }
   createFolder(folderPath: string): string {
     if (fs.existsSync(folderPath)) {
