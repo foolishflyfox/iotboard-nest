@@ -50,4 +50,12 @@ export class MimicFileService {
     );
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
+
+  renameFolder(fileType: MimicFileType, folderPath: string, newName: string) {
+    const oldPath = path.join(this.getRootDir(fileType), folderPath);
+    const newPath = path.join(path.dirname(oldPath), newName);
+    const errorMsg = this.fileSystemService.rename(oldPath, newPath);
+    console.log('errorMsg = ', errorMsg);
+    if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
+  }
 }

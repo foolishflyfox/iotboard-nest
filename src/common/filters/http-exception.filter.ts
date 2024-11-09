@@ -18,6 +18,6 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     if (status === customErrorCode.bizErrorCode) status = HttpStatus.OK;
     response
       .status(status)
-      .json(httpResultUtil.fail(exception.message, status));
+      .json(httpResultUtil.fail(exception.message, exception.getStatus()));
   }
 }

@@ -30,4 +30,14 @@ export class MimicFileController {
     this.mimicFileService.removeFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
+
+  @Post('renameDir')
+  renameDir(
+    @Body('fileType') fileType: MimicFileType,
+    @Body('folderPath') folderPath: string,
+    @Body('newName') newName: string,
+  ) {
+    this.mimicFileService.renameFolder(fileType, folderPath, newName);
+    return httpResultUtil.success();
+  }
 }
