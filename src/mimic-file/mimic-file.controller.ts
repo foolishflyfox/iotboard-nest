@@ -14,19 +14,13 @@ export class MimicFileController {
   }
 
   @Post('mkdir')
-  mkdir(
-    @Body('fileType') fileType: MimicFileType,
-    @Body('folderPath') folderPath: string,
-  ) {
+  mkdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
     this.mimicFileService.createFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
 
   @Post('rmdir')
-  rmdir(
-    @Body('fileType') fileType: MimicFileType,
-    @Body('folderPath') folderPath: string,
-  ) {
+  rmdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
     this.mimicFileService.removeFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
@@ -39,5 +33,11 @@ export class MimicFileController {
   ) {
     this.mimicFileService.renameFolder(fileType, folderPath, newName);
     return httpResultUtil.success();
+  }
+
+  @Post('list')
+  listFiles(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
+    const result = this.mimicFileService.listSubFile(fileType, folderPath);
+    return httpResultUtil.success(result);
   }
 }

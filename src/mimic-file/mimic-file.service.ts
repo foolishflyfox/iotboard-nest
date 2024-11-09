@@ -17,6 +17,10 @@ export class MimicFileService {
     return path.join(this.appConfigService.getData().path, `${fileType}s`);
   }
 
+  private getTargetPath(fileType: MimicFileType, targetPath: string) {
+    return path.join(this.getRootDir(fileType), targetPath);
+  }
+
   getFileTree(fileType: MimicFileType) {
     const rootTree = this.fileSystemService.traverseFileTree(
       this.getRootDir(fileType),
@@ -39,24 +43,39 @@ export class MimicFileService {
   }
 
   createFolder(fileType: MimicFileType, folderPath: string) {
-    const errorMsg = this.fileSystemService.createFolder(
-      path.join(this.getRootDir(fileType), folderPath),
-    );
+    const errorMsg = this.fileSystemService.createFolder(this.getTargetPath(fileType, folderPath));
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 
   removeFolder(fileType: MimicFileType, folderPath: string) {
-    const errorMsg = this.fileSystemService.removeFolder(
-      path.join(this.getRootDir(fileType), folderPath),
-    );
+    const errorMsg = this.fileSystemService.removeFolder(this.getTargetPath(fileType, folderPath));
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 
   renameFolder(fileType: MimicFileType, folderPath: string, newName: string) {
-    const oldPath = path.join(this.getRootDir(fileType), folderPath);
+    const oldPath = this.getTargetPath(fileType, folderPath);
     const newPath = path.join(path.dirname(oldPath), newName);
     const errorMsg = this.fileSystemService.rename(oldPath, newPath);
     console.log('errorMsg = ', errorMsg);
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
+  }
+
+  listSubFile(fileType: MimicFileType, folderPath: string) {
+    const fileNames = this.fileSystemService.list(this.getTargetPath(fileType, folderPath), [
+      this.fileSystemService.createIncludeExtFilter('json', 'png'),
+    ]);
+    const resultDict: Record<string, { name: string; hasPreview?: boolean }> = {};
+    const pngs = [];
+    for (const fileName of fileNames) {
+      const name = path.parse(fileName).name;
+      if (fileName.endsWith('.png')) pngs.push(name);
+      else if (fileName.endsWith('.json')) resultDict[name] = { name };
+    }
+    for (const png of pngs) {
+      if (resultDict[png]) {
+        resultDict[png].hasPreview = true;
+      }
+    }
+    return _.values(resultDict);
   }
 }

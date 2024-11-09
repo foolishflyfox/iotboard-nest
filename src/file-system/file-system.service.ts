@@ -46,6 +46,11 @@ export class FileSystemService {
     }
     return { name: basename, path: curPath };
   }
+  /**
+   * 按指定路径创建文件夹
+   * @param folderPath 指定路径名
+   * @returns
+   */
   createFolder(folderPath: string): string {
     if (fs.existsSync(folderPath)) {
       return `文件夹 ${folderPath} 已存在`;
@@ -53,6 +58,11 @@ export class FileSystemService {
       fs.mkdirSync(folderPath, { recursive: true });
     }
   }
+  /**
+   * 删除指定路径的文件夹
+   * @param folderPath 指定路径名
+   * @returns
+   */
   removeFolder(folderPath: string): string {
     if (fs.existsSync(folderPath)) {
       fs.rmdirSync(folderPath);
@@ -60,6 +70,12 @@ export class FileSystemService {
       return `文件夹 ${folderPath} 不存在`;
     }
   }
+  /**
+   * 为指定文件/文件夹重命名
+   * @param oldPath 旧路径名
+   * @param newPath 新路径名
+   * @returns
+   */
   rename(oldPath: string, newPath: string): string {
     if (fs.existsSync(newPath)) {
       console.log('@@@@');
@@ -67,5 +83,19 @@ export class FileSystemService {
     } else {
       fs.renameSync(oldPath, newPath);
     }
+  }
+  /**
+   * 列出指定文件夹下的文件名
+   * @param folderPath 文件夹路径
+   * @param filters 文件名过滤器
+   */
+  list(folderPath: string, filters?: ((filename: string) => boolean)[]) {
+    let allSubs = fs.readdirSync(folderPath);
+    return allSubs.filter((e) => {
+      for (const filter of filters) {
+        if (!filter(e)) return false;
+      }
+      return true;
+    });
   }
 }
