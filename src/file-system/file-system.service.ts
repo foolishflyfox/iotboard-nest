@@ -50,4 +50,11 @@ export class FileSystemService {
       fs.mkdirSync(folderPath, { recursive: true });
     }
   }
+  removeFolder(folderPath: string): string {
+    if (fs.existsSync(folderPath)) {
+      fs.rmdirSync(folderPath);
+    } else {
+      return `文件夹 ${folderPath} 不存在`;
+    }
+  }
 }

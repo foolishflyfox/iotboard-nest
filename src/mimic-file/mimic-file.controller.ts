@@ -21,4 +21,13 @@ export class MimicFileController {
     this.mimicFileService.createFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
+
+  @Post('rmdir')
+  rmdir(
+    @Body('fileType') fileType: MimicFileType,
+    @Body('folderPath') folderPath: string,
+  ) {
+    this.mimicFileService.removeFolder(fileType, folderPath);
+    return httpResultUtil.success();
+  }
 }

@@ -41,7 +41,13 @@ export class MimicFileService {
     const errorMsg = this.fileSystemService.createFolder(
       path.join(this.getRootDir(fileType), folderPath),
     );
-    console.log('@@@@', errorMsg);
+    if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
+  }
+
+  removeFolder(fileType: MimicFileType, folderPath: string) {
+    const errorMsg = this.fileSystemService.removeFolder(
+      path.join(this.getRootDir(fileType), folderPath),
+    );
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 }
