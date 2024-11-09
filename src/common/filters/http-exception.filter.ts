@@ -3,9 +3,10 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import dayjs from 'dayjs';
-import { httpResultUtil } from 'src/utils';
+import { customErrorCode, httpResultUtil } from 'src/utils';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
@@ -13,8 +14,8 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     // const request = ctx.getRequest();
-    const status = exception.getStatus();
-
+    let status = exception.getStatus();
+    if (status === customErrorCode.bizErrorCode) status = HttpStatus.OK;
     response
       .status(status)
       .json(httpResultUtil.fail(exception.message, status));

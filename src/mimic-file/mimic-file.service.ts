@@ -4,7 +4,7 @@ import { AppConfigService } from 'src/app-config/app-config.service';
 import { MimicFileType } from './types';
 import { FileSystemService } from 'src/file-system/file-system.service';
 import _ from 'lodash';
-import { createHttpException } from 'src/utils';
+import { createHttpBizException, createHttpException } from 'src/utils';
 
 @Injectable()
 export class MimicFileService {
@@ -41,6 +41,7 @@ export class MimicFileService {
     const errorMsg = this.fileSystemService.createFolder(
       path.join(this.getRootDir(fileType), folderPath),
     );
-    if (!_.isEmpty(errorMsg)) throw createHttpException(errorMsg);
+    console.log('@@@@', errorMsg);
+    if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 }
