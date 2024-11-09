@@ -43,4 +43,11 @@ export class FileSystemService {
     }
     return { name: basename };
   }
+  createFolder(folderPath: string): string {
+    if (fs.existsSync(folderPath)) {
+      return `文件夹 ${folderPath} 已存在`;
+    } else {
+      fs.mkdirSync(folderPath, { recursive: true });
+    }
+  }
 }

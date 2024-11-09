@@ -3,7 +3,7 @@ import { HttpResult } from 'src/types';
 
 export const httpResultUtil = {
   /** 生成请求成功的响应体 */
-  success<T>(result: T): HttpResult<T> {
+  success<T>(result?: T): HttpResult<T> {
     return {
       code: 200,
       result,
