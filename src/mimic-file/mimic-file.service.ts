@@ -14,7 +14,7 @@ export class MimicFileService {
   ) {}
 
   private getRootDir(fileType: MimicFileType) {
-    return path.join(this.appConfigService.getData().path, `${fileType}s`);
+    return path.join(this.appConfigService.getData().path, fileType);
   }
 
   private getTargetPath(fileType: MimicFileType, targetPath: string) {
