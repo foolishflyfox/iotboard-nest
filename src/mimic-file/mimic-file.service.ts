@@ -1,10 +1,10 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as path from 'path';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import { MimicFileType } from './types';
 import { FileSystemService } from 'src/file-system/file-system.service';
 import _ from 'lodash';
-import { createHttpBizException, createHttpException } from 'src/utils';
+import { createHttpBizException } from 'src/utils';
 
 @Injectable()
 export class MimicFileService {

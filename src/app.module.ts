@@ -1,25 +1,25 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  ValidationPipe,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
-import {
-  logger,
-  LoggerMiddleware,
-} from './common/middleware/logger.middleware';
+import { logger, LoggerMiddleware } from './common/middleware/logger.middleware';
 import { CatsController } from './cats/cats.controller';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { FileSystemModule } from './file-system/file-system.module';
 import { AppConfigModule } from './app-config/app-config.module';
 import { MimicFileModule } from './mimic-file/mimic-file.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
-  imports: [CatsModule, FileSystemModule, AppConfigModule, MimicFileModule],
+  imports: [
+    CatsModule,
+    FileSystemModule,
+    AppConfigModule,
+    MimicFileModule,
+    ServeStaticModule.forRoot({ rootPath: join(__dirname, 'app-data'), serveRoot: '/data' }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,

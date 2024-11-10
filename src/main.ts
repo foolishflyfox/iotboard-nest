@@ -2,9 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { logger } from './common/middleware/logger.middleware';
 import { AppConfigService } from './app-config/app-config.service';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // app.use(express.static(path.join(__dirname)));
+  console.log('@@@', __dirname);
   // 直接从 ioc 容器中获取 provider
   const appConfigService = app.get(AppConfigService);
   // 全局中间件，将中间件绑定到每个已注册的路由
