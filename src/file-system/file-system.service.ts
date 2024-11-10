@@ -98,4 +98,8 @@ export class FileSystemService {
       return true;
     });
   }
+
+  write(filePath: string, content: string) {
+    fs.writeFileSync(filePath, content);
+  }
 }

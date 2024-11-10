@@ -40,4 +40,11 @@ export class MimicFileController {
     const result = this.mimicFileService.listSubFile(fileType, folderPath);
     return httpResultUtil.success(result);
   }
+
+  // todo: 改为保存真实的json
+  @Get('save')
+  save() {
+    this.mimicFileService.saveFile('component', 'abc', '123');
+    return httpResultUtil.success();
+  }
 }

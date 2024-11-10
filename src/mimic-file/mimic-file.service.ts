@@ -78,4 +78,9 @@ export class MimicFileService {
     }
     return _.values(resultDict);
   }
+
+  saveFile(fileType: MimicFileType, filePath: string, content: string) {
+    // todo: 真实路径
+    this.fileSystemService.write(filePath, content);
+  }
 }
