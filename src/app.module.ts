@@ -18,7 +18,10 @@ import { join } from 'path';
     FileSystemModule,
     AppConfigModule,
     MimicFileModule,
-    ServeStaticModule.forRoot({ rootPath: join(__dirname, 'app-data'), serveRoot: '/data' }),
+    ServeStaticModule.forRoot(
+      { rootPath: join(__dirname, 'app-data'), serveRoot: '/data' },
+      { rootPath: join(__dirname), serveRoot: '/' },
+    ),
   ],
   controllers: [AppController],
   providers: [

@@ -1,5 +1,11 @@
 {
     "tag": "component/基础/gauge",
+    "appearanceTypes": [
+        "x",
+        "y",
+        "width",
+        "height"
+    ],
     "customPropertyCfgs": {
         "value": {
             "setter": "function(v) {\n        this._value = v;\n      }",
