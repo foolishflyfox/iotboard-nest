@@ -41,10 +41,13 @@ export class MimicFileController {
     return httpResultUtil.success(result);
   }
 
-  // todo: 改为保存真实的json
-  @Get('save')
-  save() {
-    this.mimicFileService.saveFile('component', 'abc', '123');
+  @Post('save')
+  save(
+    @Body('fileType') fileType: MimicFileType,
+    @Body('displayPath') displayPath: string,
+    @Body('content') content: string,
+  ) {
+    this.mimicFileService.saveFile(fileType, displayPath, content);
     return httpResultUtil.success();
   }
 }

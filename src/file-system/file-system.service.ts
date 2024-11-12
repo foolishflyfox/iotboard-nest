@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FileTreeNode } from './interfaces/file-tree-node.interface';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SaveFileResult } from 'src/types';
 
 @Injectable()
 export class FileSystemService {
@@ -99,7 +100,11 @@ export class FileSystemService {
     });
   }
 
-  write(filePath: string, content: string) {
+  write(filePath: string, content: string, overwrite?: boolean): SaveFileResult {
+    if (!overwrite && fs.existsSync(filePath)) {
+      return SaveFileResult.FileExisted;
+    }
     fs.writeFileSync(filePath, content);
+    return SaveFileResult.Success;
   }
 }
