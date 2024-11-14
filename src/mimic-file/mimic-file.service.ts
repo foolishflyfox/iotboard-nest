@@ -96,10 +96,10 @@ export class MimicFileService {
 
   readFile(fileType: MimicFileType, filePath: string) {
     const realPath = this.getTargetPath(fileType, filePath);
-    const content = this.fileSystemService.readFile(realPath);
-    if (content === null) {
+    const rawData = this.fileSystemService.readFile(realPath);
+    if (rawData === null) {
       throw createHttpBizException(`文件 ${realpath} 不存在`);
     }
-    return content;
+    return rawData.toString();
   }
 }
