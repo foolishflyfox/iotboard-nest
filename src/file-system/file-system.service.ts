@@ -100,11 +100,23 @@ export class FileSystemService {
     });
   }
 
-  write(filePath: string, content: string, overwrite?: boolean): SaveFileResult {
+  writeFile(filePath: string, content: string, overwrite?: boolean): SaveFileResult {
     if (!overwrite && fs.existsSync(filePath)) {
       return SaveFileResult.FileExisted;
     }
     fs.writeFileSync(filePath, content);
     return SaveFileResult.Success;
+  }
+
+  deleteFile(filePath: string) {
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  }
+
+  readFile(filePath: string) {
+    if (!fs.existsSync(filePath)) return null;
+    const content = fs.readFileSync(filePath);
+    return content;
   }
 }

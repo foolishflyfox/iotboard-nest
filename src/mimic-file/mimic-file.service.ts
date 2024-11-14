@@ -6,6 +6,7 @@ import { FileSystemService } from 'src/file-system/file-system.service';
 import _ from 'lodash';
 import { createHttpBizException } from 'src/utils';
 import { SaveFileResult } from 'src/types';
+import { realpath } from 'fs';
 
 @Injectable()
 export class MimicFileService {
@@ -82,9 +83,23 @@ export class MimicFileService {
 
   saveFile(fileType: MimicFileType, filePath: string, content: string, overwrite?: boolean) {
     const realPath = this.getTargetPath(fileType, filePath);
-    const result = this.fileSystemService.write(realPath, content, overwrite);
+    const result = this.fileSystemService.writeFile(realPath, content, overwrite);
     if (result === SaveFileResult.FileExisted) {
       throw createHttpBizException(`文件 ${realPath} 已存在`);
     }
+  }
+
+  deleteFile(fileType: MimicFileType, filePath: string) {
+    const realPath = this.getTargetPath(fileType, filePath);
+    this.fileSystemService.deleteFile(realPath);
+  }
+
+  readFile(fileType: MimicFileType, filePath: string) {
+    const realPath = this.getTargetPath(fileType, filePath);
+    const content = this.fileSystemService.readFile(realPath);
+    if (content === null) {
+      throw createHttpBizException(`文件 ${realpath} 不存在`);
+    }
+    return content;
   }
 }

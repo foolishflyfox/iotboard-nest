@@ -44,10 +44,23 @@ export class MimicFileController {
   @Post('save')
   save(
     @Body('fileType') fileType: MimicFileType,
-    @Body('displayPath') displayPath: string,
+    @Body('filePath') filePath: string,
     @Body('content') content: string,
   ) {
-    this.mimicFileService.saveFile(fileType, displayPath, content);
+    this.mimicFileService.saveFile(fileType, filePath, content);
     return httpResultUtil.success();
+  }
+
+  @Post('delete')
+  delete(@Body('fileType') fileType: MimicFileType, @Body('filePath') filePath: string) {
+    this.mimicFileService.deleteFile(fileType, filePath);
+    return httpResultUtil.success();
+  }
+
+  /** 打开图纸/模块/组件 */
+  @Post('open')
+  open(@Body('fileType') fileType: MimicFileType, @Body('filePath') filePath: string) {
+    const result = this.mimicFileService.readFile(fileType, filePath);
+    return httpResultUtil.success(result);
   }
 }
