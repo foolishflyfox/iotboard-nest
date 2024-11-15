@@ -41,8 +41,8 @@ export class MimicFileController {
     return httpResultUtil.success(result);
   }
 
-  @Post('save')
-  save(
+  @Post('create')
+  create(
     @Body('fileType') fileType: MimicFileType,
     @Body('filePath') filePath: string,
     @Body('content') content: string,
