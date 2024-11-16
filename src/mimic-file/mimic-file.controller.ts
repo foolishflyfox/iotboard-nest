@@ -51,6 +51,16 @@ export class MimicFileController {
     return httpResultUtil.success();
   }
 
+  @Post('save')
+  save(
+    @Body('fileType') fileType: MimicFileType,
+    @Body('filePath') filePath: string,
+    @Body('content') content: string,
+  ) {
+    this.mimicFileService.saveFile(fileType, filePath, content, true);
+    return httpResultUtil.success();
+  }
+
   @Post('delete')
   delete(@Body('fileType') fileType: MimicFileType, @Body('filePath') filePath: string) {
     this.mimicFileService.deleteFile(fileType, filePath);
