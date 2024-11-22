@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { MimicFileType } from './types';
 import { MimicFileService } from './mimic-file.service';
-import { httpResultUtil } from 'src/utils';
+import { httpResultUtil, syncUploadToDist } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
@@ -87,20 +87,15 @@ export class MimicFileController {
           callback(null, path.join('app-data', destPath));
         },
         filename: (req, file, callback) => {
-          // console.log('origin name = ', file.originalname);
           const fileName = path.basename(file.originalname);
-          console.log('fileName =', fileName);
           callback(null, fileName);
         },
       }),
     }),
   )
   uploadPng(@UploadedFile() file: Express.Multer.File) {
-    if (fs.existsSync('dist/main.js')) {
-      // 调试模式，需要同步预览文件到 dist 中
-      fs.copyFile(file.path, path.join('dist', file.path), (err) => {});
-    }
-    console.log('receive file:', file);
+    syncUploadToDist(file.path);
+    // console.log('receive file:', file);
     return httpResultUtil.success('ok');
   }
 }
