@@ -5,7 +5,6 @@ import { httpResultUtil, syncUploadToDist } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
-import * as fs from 'fs';
 
 @Controller('mimic/file')
 export class MimicFileController {
