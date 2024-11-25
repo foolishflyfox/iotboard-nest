@@ -8,19 +8,23 @@
   ],
   "customPropertyCfgs": [
     {
+      "id": "1",
       "name": "value",
       "setter": "function(v) {\n        this._value = v;\n      }",
       "defaultValue": 66
     },
     {
+      "id": "2",
       "name": "min",
       "defaultValue": 11
     },
     {
+      "id": "3",
       "name": "max",
       "defaultValue": 100
     },
     {
+      "id": "4",
       "name": "unit",
       "defaultValue": "km/h"
     }
