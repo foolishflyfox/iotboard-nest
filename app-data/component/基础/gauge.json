@@ -6,21 +6,25 @@
     "width",
     "height"
   ],
-  "customPropertyCfgs": {
-    "value": {
+  "customPropertyCfgs": [
+    {
+      "name": "value",
       "setter": "function(v) {\n        this._value = v;\n      }",
       "defaultValue": 66
     },
-    "min": {
+    {
+      "name": "min",
       "defaultValue": 11
     },
-    "max": {
+    {
+      "name": "max",
       "defaultValue": 100
     },
-    "unit": {
+    {
+      "name": "unit",
       "defaultValue": "km/h"
     }
-  },
+  ],
   "defaultAppearanceValues": {
     "width": 80,
     "height": 80
