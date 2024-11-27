@@ -1,5 +1,4 @@
 {
-  "tag": "component/基础/gauge",
   "appearanceTypes": [
     "x",
     "y",
@@ -11,17 +10,21 @@
       "id": "1",
       "name": "value",
       "setter": "function(v) {\n        this._value = v;\n      }",
-      "defaultValue": 66
+      "defaultValue": 66,
+      "variable": true,
+      "label": "这是一个测试的值"
     },
     {
       "id": "2",
       "name": "min",
-      "defaultValue": 11
+      "defaultValue": 11,
+      "variable": true
     },
     {
       "id": "3",
       "name": "max",
-      "defaultValue": 100
+      "defaultValue": 100,
+      "variable": true
     },
     {
       "id": "4",
