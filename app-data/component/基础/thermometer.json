@@ -1,0 +1,17 @@
+{
+  "appearanceTypes": [
+    "height",
+    "width",
+    "x",
+    "y"
+  ],
+  "customPropertyCfgs": [],
+  "defaultAppearanceValues": {
+    "height": 80,
+    "width": 80
+  },
+  "draw": "function(canvas) {\n    const ctx = canvas.context;\n    const obj = this.__;\n    ctx.scale(obj.width / 100, obj.height / 400);\n    const x = 0;\n    const y = 0;\n    const width = 100;\n    const height = 400;\n    const temperature = 55;\n    ctx.fillStyle = '#ccc';\n    ctx.beginPath();\n    ctx.moveTo(65, 30);\n    ctx.lineTo(85, 30);\n    ctx.lineTo(85, 330);\n    ctx.arc(75, 330, 10, 0, Math.PI, true); // 圆形底部\n    ctx.lineTo(65, 30);\n    ctx.fill();\n    // 温度计填充 - 渐变色填充温度\n    const gradient = ctx.createLinearGradient(\n      0,\n      330,\n      0,\n      330 - temperature * 3\n    );\n    gradient.addColorStop(0, \"#ff5e57\");\n    gradient.addColorStop(1, \"#ff9e80\");\n    ctx.fillStyle = gradient;\n    ctx.fillStyle = 'red';\n    ctx.fillRect(66, 330 - temperature * 3, 18, temperature * 3);\n    // 温度计底部的球体（带阴影）\n    ctx.beginPath();\n    ctx.arc(75, 350, 25, 0, Math.PI * 2);\n    const bulbGradient = ctx.createRadialGradient(75, 350, 5, 75, 350, 25);\n    bulbGradient.addColorStop(0, \"#ff5e57\");\n    bulbGradient.addColorStop(1, \"#ff3b30\");\n    ctx.fillStyle = bulbGradient;\n    ctx.fill();\n    ctx.shadowColor = \"rgba(0, 0, 0, 0.2)\";\n    ctx.shadowBlur = 10;\n    ctx.shadowOffsetY = 5;\n\n    // 刻度线和文字\n    ctx.shadowColor = \"transparent\"; // 刻度线不带阴影\n    ctx.fillStyle = \"#333\";\n    ctx.font = \"14px Arial\";\n    for (let i = 0; i <= 10; i++) {\n      let y = 330 - i * 30;\n      ctx.fillRect(50, y, 10, 2);\n      ctx.fillText(i * 10 + \"°C\", 10, y + 5);\n    }\n\n    // 显示当前温度数值\n    ctx.font = \"24px Arial\";\n    ctx.fillStyle = \"#ff3b30\";\n    ctx.fillText(temperature + \"°C\", 50, 400);\n}",
+  "drawHitPath": "function(hitCanvas) {\n    const { context } = hitCanvas;\n    const { width, height } = this.__layout.boxBounds;\n    context.save();\n    context.scale(width / 100, height / 400);\n    context.beginPath();\n    context.rect(0, 0, 100, 400);\n    context.restore();\n}",
+  "hit": "function(inner) {\n    const { context } = this.__hitCanvas;\n    if (context.isPointInPath(inner.x, inner.y)) return true;\n    const lineWidth = inner.radiusX * 2;\n    if (context.lineWidth !== lineWidth) {\n      context.lineWidth = lineWidth;\n      context.stroke();\n    }\n    return context.isPointInStroke(inner.x, inner.y);\n  }",
+  "tag": "component/基础/thermometer"
+}
