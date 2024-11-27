@@ -4,7 +4,7 @@ import { AppConfigService } from 'src/app-config/app-config.service';
 import { MimicFileType } from './types';
 import { FileSystemService } from 'src/file-system/file-system.service';
 import _ from 'lodash';
-import { createHttpBizException } from 'src/utils';
+import { createHttpBizException, pathWithoutExt, syncDeleteFromDist } from 'src/utils';
 import { SaveFileResult } from 'src/types';
 import { realpath } from 'fs';
 
@@ -91,7 +91,11 @@ export class MimicFileService {
 
   deleteFile(fileType: MimicFileType, filePath: string) {
     const realPath = this.getTargetPath(fileType, filePath);
+    const pngPath = pathWithoutExt(realPath) + '.png';
+    console.log('to delete', pngPath);
     this.fileSystemService.deleteFile(realPath);
+    this.fileSystemService.deleteFile(pngPath);
+    syncDeleteFromDist(pngPath);
   }
 
   readFile(fileType: MimicFileType, filePath: string) {

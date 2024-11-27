@@ -1,10 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import dayjs from 'dayjs';
 import { customErrorCode, httpResultUtil } from 'src/utils';
 
@@ -16,8 +10,6 @@ export class HttpExceptionFilter implements ExceptionFilter<HttpException> {
     // const request = ctx.getRequest();
     let status = exception.getStatus();
     if (status === customErrorCode.bizErrorCode) status = HttpStatus.OK;
-    response
-      .status(status)
-      .json(httpResultUtil.fail(exception.message, exception.getStatus()));
+    response.status(status).json(httpResultUtil.fail(exception.message, exception.getStatus()));
   }
 }

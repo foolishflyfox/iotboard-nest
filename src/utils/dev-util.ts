@@ -12,3 +12,12 @@ export function syncUploadToDist(filePath: string) {
     fs.copyFile(filePath, path.join('dist', filePath), (err) => {});
   }
 }
+
+/** 将静态文件删除同步到 dist 中 */
+export function syncDeleteFromDist(filePath: string) {
+  if (isNestStart()) {
+    try {
+      fs.unlinkSync(path.join('dist', filePath));
+    } catch (e) {}
+  }
+}
