@@ -19,14 +19,14 @@ export class MimicFileController {
   @Post('mkdir')
   mkdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
     const folderRealPath = this.mimicFileService.createFolder(fileType, folderPath);
-    syncCreateFolder(folderRealPath);
+    // syncCreateFolder(folderRealPath);
     return httpResultUtil.success();
   }
 
   @Post('rmdir')
   rmdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
     const folderRealPath = this.mimicFileService.removeFolder(fileType, folderPath);
-    syncRemoveFolder(folderRealPath);
+    // syncRemoveFolder(folderRealPath);
     return httpResultUtil.success();
   }
 
@@ -95,7 +95,7 @@ export class MimicFileController {
     }),
   )
   upload(@UploadedFile() file: Express.Multer.File) {
-    syncUploadToDist(file.path);
+    // syncUploadToDist(file.path);
     // console.log('receive file:', file);
     return httpResultUtil.success('ok');
   }

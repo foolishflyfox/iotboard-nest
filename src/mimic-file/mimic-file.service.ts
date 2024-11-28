@@ -99,7 +99,7 @@ export class MimicFileService {
     console.log('to delete', pngPath);
     this.fileSystemService.deleteFile(realPath);
     this.fileSystemService.deleteFile(pngPath);
-    syncDeleteFromDist(pngPath);
+    // syncDeleteFromDist(pngPath);
   }
 
   readFile(fileType: MimicFileType, filePath: string) {
