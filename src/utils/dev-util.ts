@@ -9,7 +9,11 @@ export const isNestStart = (function () {
 /** 将静态文件同步到 dist 中，否则前端不能获取 */
 export function syncUploadToDist(filePath: string) {
   if (isNestStart()) {
-    fs.copyFile(filePath, path.join('dist', filePath), (err) => {});
+    fs.copyFile(filePath, path.join('dist', filePath), (err) => {
+      if (err) {
+        console.log('复制到 dist 时发生错误: ', err?.message);
+      }
+    });
   }
 }
 
@@ -19,5 +23,17 @@ export function syncDeleteFromDist(filePath: string) {
     try {
       fs.unlinkSync(path.join('dist', filePath));
     } catch (e) {}
+  }
+}
+
+export function syncCreateFolder(folderPath: string) {
+  if (isNestStart()) {
+    fs.mkdirSync(path.join('dist', folderPath), { recursive: true });
+  }
+}
+
+export function syncRemoveFolder(folderPath: string) {
+  if (isNestStart()) {
+    fs.rmdirSync(path.join('dist', folderPath));
   }
 }

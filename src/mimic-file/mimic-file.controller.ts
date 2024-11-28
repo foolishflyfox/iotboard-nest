@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { MimicFileType } from './types';
 import { MimicFileService } from './mimic-file.service';
-import { httpResultUtil, syncUploadToDist } from 'src/utils';
+import { httpResultUtil, syncCreateFolder, syncRemoveFolder, syncUploadToDist } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
@@ -18,13 +18,15 @@ export class MimicFileController {
 
   @Post('mkdir')
   mkdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
-    this.mimicFileService.createFolder(fileType, folderPath);
+    const folderRealPath = this.mimicFileService.createFolder(fileType, folderPath);
+    syncCreateFolder(folderRealPath);
     return httpResultUtil.success();
   }
 
   @Post('rmdir')
   rmdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
-    this.mimicFileService.removeFolder(fileType, folderPath);
+    const folderRealPath = this.mimicFileService.removeFolder(fileType, folderPath);
+    syncRemoveFolder(folderRealPath);
     return httpResultUtil.success();
   }
 
@@ -77,7 +79,7 @@ export class MimicFileController {
     return httpResultUtil.success(result);
   }
 
-  @Post('uploadPng/:destPath(.*)')
+  @Post('upload/:destPath(.*)')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -92,9 +94,13 @@ export class MimicFileController {
       }),
     }),
   )
-  uploadPng(@UploadedFile() file: Express.Multer.File) {
+  upload(@UploadedFile() file: Express.Multer.File) {
     syncUploadToDist(file.path);
     // console.log('receive file:', file);
+    return httpResultUtil.success('ok');
+  }
+
+  uploadImage(@UploadedFile() file: Express.Multer.File) {
     return httpResultUtil.success('ok');
   }
 }

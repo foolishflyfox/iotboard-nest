@@ -45,13 +45,17 @@ export class MimicFileService {
   }
 
   createFolder(fileType: MimicFileType, folderPath: string) {
-    const errorMsg = this.fileSystemService.createFolder(this.getTargetPath(fileType, folderPath));
+    const folderRealPath = this.getTargetPath(fileType, folderPath);
+    const errorMsg = this.fileSystemService.createFolder(folderRealPath);
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
+    return folderRealPath;
   }
 
   removeFolder(fileType: MimicFileType, folderPath: string) {
-    const errorMsg = this.fileSystemService.removeFolder(this.getTargetPath(fileType, folderPath));
+    const folderRealPath = this.getTargetPath(fileType, folderPath);
+    const errorMsg = this.fileSystemService.removeFolder(folderRealPath);
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
+    return folderRealPath;
   }
 
   renameFolder(fileType: MimicFileType, folderPath: string, newName: string) {
