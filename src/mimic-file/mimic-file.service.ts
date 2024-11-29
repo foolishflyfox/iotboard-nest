@@ -4,7 +4,7 @@ import { AppConfigService } from 'src/app-config/app-config.service';
 import { MimicFileType } from './types';
 import { FileSystemService } from 'src/file-system/file-system.service';
 import _ from 'lodash';
-import { createHttpBizException, pathWithoutExt, syncDeleteFromDist } from 'src/utils';
+import { createHttpBizException, pathWithoutExt } from 'src/utils';
 import { SaveFileResult } from 'src/types';
 import { realpath } from 'fs';
 
@@ -48,14 +48,12 @@ export class MimicFileService {
     const folderRealPath = this.getTargetPath(fileType, folderPath);
     const errorMsg = this.fileSystemService.createFolder(folderRealPath);
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
-    return folderRealPath;
   }
 
   removeFolder(fileType: MimicFileType, folderPath: string) {
     const folderRealPath = this.getTargetPath(fileType, folderPath);
     const errorMsg = this.fileSystemService.removeFolder(folderRealPath);
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
-    return folderRealPath;
   }
 
   renameFolder(fileType: MimicFileType, folderPath: string, newName: string) {
@@ -99,7 +97,6 @@ export class MimicFileService {
     console.log('to delete', pngPath);
     this.fileSystemService.deleteFile(realPath);
     this.fileSystemService.deleteFile(pngPath);
-    // syncDeleteFromDist(pngPath);
   }
 
   readFile(fileType: MimicFileType, filePath: string) {

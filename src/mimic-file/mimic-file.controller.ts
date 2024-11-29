@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { MimicFileType } from './types';
 import { MimicFileService } from './mimic-file.service';
-import { httpResultUtil, syncCreateFolder, syncRemoveFolder, syncUploadToDist } from 'src/utils';
+import { httpResultUtil } from 'src/utils';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
@@ -18,15 +18,13 @@ export class MimicFileController {
 
   @Post('mkdir')
   mkdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
-    const folderRealPath = this.mimicFileService.createFolder(fileType, folderPath);
-    // syncCreateFolder(folderRealPath);
+    this.mimicFileService.createFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
 
   @Post('rmdir')
   rmdir(@Body('fileType') fileType: MimicFileType, @Body('folderPath') folderPath: string) {
-    const folderRealPath = this.mimicFileService.removeFolder(fileType, folderPath);
-    // syncRemoveFolder(folderRealPath);
+    this.mimicFileService.removeFolder(fileType, folderPath);
     return httpResultUtil.success();
   }
 
@@ -95,7 +93,6 @@ export class MimicFileController {
     }),
   )
   upload(@UploadedFile() file: Express.Multer.File) {
-    // syncUploadToDist(file.path);
     // console.log('receive file:', file);
     return httpResultUtil.success('ok');
   }
