@@ -92,7 +92,8 @@ export class MimicFileController {
           callback(null, path.join('app-data', destPath));
         },
         filename: (req, file, callback) => {
-          const fileName = path.basename(file.originalname);
+          const originalName = Buffer.from(file.originalname, 'latin1').toString('utf8');
+          const fileName = path.basename(originalName);
           callback(null, fileName);
         },
       }),
