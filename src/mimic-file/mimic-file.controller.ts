@@ -76,6 +76,12 @@ export class MimicFileController {
     return httpResultUtil.success();
   }
 
+  @Post('delete/asset')
+  deleteAsset(@Body('filePath') filePath: string) {
+    this.mimicFileService.deleteAsset(filePath);
+    return httpResultUtil.success();
+  }
+
   /** 打开图纸/模块/组件 */
   @Post('open')
   open(@Body('fileType') fileType: MimicFileType, @Body('filePath') filePath: string) {

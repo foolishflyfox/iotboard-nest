@@ -71,6 +71,11 @@ export class MimicFileService {
     return fileNames.map((e) => `/data/asset/${folderPath}/${e}`);
   }
 
+  deleteAsset(filePath: string) {
+    const realPath = this.getTargetPath('asset', _.last(filePath.split('/data/asset')));
+    this.fileSystemService.deleteFile(realPath);
+  }
+
   listSubFile(fileType: MimicFileType, folderPath: string) {
     const fileNames = this.fileSystemService.list(this.getTargetPath(fileType, folderPath), [
       this.fileSystemService.createIncludeExtFilter('json', 'png'),
