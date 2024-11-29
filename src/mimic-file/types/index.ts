@@ -1,1 +1,1 @@
-export type MimicFileType = 'display' | 'module' | 'component';
+export type MimicFileType = 'display' | 'module' | 'component' | 'asset';

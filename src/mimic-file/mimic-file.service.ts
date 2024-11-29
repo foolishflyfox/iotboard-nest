@@ -64,6 +64,13 @@ export class MimicFileService {
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 
+  listAssetFile(folderPath: string) {
+    const fileNames = this.fileSystemService.list(this.getTargetPath('asset', folderPath), [
+      this.fileSystemService.createIncludeExtFilter('png', 'jpg', 'jpeg', 'svg'),
+    ]);
+    return fileNames.map((e) => `/data/asset/${folderPath}/${e}`);
+  }
+
   listSubFile(fileType: MimicFileType, folderPath: string) {
     const fileNames = this.fileSystemService.list(this.getTargetPath(fileType, folderPath), [
       this.fileSystemService.createIncludeExtFilter('json', 'png'),

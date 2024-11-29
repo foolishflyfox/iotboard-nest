@@ -44,6 +44,12 @@ export class MimicFileController {
     return httpResultUtil.success(result);
   }
 
+  @Post('list/assets')
+  listAssets(@Body('folderPath') folderPath: string) {
+    const result = this.mimicFileService.listAssetFile(folderPath);
+    return httpResultUtil.success(result);
+  }
+
   @Post('create')
   create(
     @Body('fileType') fileType: MimicFileType,
