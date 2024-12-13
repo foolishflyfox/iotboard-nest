@@ -12,24 +12,32 @@
       "setter": "function(v) {\n        this._value = v;\n      }",
       "defaultValue": 66,
       "variable": true,
-      "label": "这是一个测试的值"
+      "label": "数值",
+      "type": "number"
     },
     {
       "id": "2",
       "name": "min",
       "defaultValue": 11,
-      "variable": true
+      "variable": true,
+      "label": "最小值",
+      "type": "number"
     },
     {
       "id": "3",
       "name": "max",
       "defaultValue": 100,
-      "variable": true
+      "variable": true,
+      "label": "最大值",
+      "type": "number"
     },
     {
       "id": "4",
       "name": "unit",
-      "defaultValue": "km/h"
+      "defaultValue": "km/h",
+      "label": "单位",
+      "type": "string",
+      "variable": true
     }
   ],
   "defaultAppearanceValues": {
