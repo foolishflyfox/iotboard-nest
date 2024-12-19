@@ -113,7 +113,6 @@ export class MimicFileController {
     }),
   )
   upload(@UploadedFile() file: Express.Multer.File) {
-    console.log('@@@2');
     // console.log('receive file:', file);
     return httpResultUtil.success('ok');
   }

@@ -79,7 +79,6 @@ export class FileSystemService {
    */
   rename(oldPath: string, newPath: string): string {
     if (fs.existsSync(newPath)) {
-      console.log('@@@@');
       return `${newPath} 已存在`;
     } else {
       fs.renameSync(oldPath, newPath);
