@@ -6,9 +6,13 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import path from 'path';
 
+let localMimicFileService: MimicFileService;
+
 @Controller('mimic/file')
 export class MimicFileController {
-  constructor(private mimicFileService: MimicFileService) {}
+  constructor(private mimicFileService: MimicFileService) {
+    localMimicFileService = this.mimicFileService;
+  }
 
   @Get('tree/:type')
   fileTree(@Param('type') fileType: MimicFileType) {
@@ -95,6 +99,9 @@ export class MimicFileController {
       storage: diskStorage({
         destination: (req, file, callback) => {
           const destPath = req.params.destPath;
+          if (destPath.startsWith('custom/')) {
+            localMimicFileService.createCustomDataFolder(destPath);
+          }
           callback(null, path.join('app-data', destPath));
         },
         filename: (req, file, callback) => {
@@ -106,6 +113,7 @@ export class MimicFileController {
     }),
   )
   upload(@UploadedFile() file: Express.Multer.File) {
+    console.log('@@@2');
     // console.log('receive file:', file);
     return httpResultUtil.success('ok');
   }

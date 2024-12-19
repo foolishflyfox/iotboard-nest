@@ -50,6 +50,11 @@ export class MimicFileService {
     if (!_.isEmpty(errorMsg)) throw createHttpBizException(errorMsg);
   }
 
+  createCustomDataFolder(folderPath: string) {
+    const targetPath = path.join(this.appConfigService.getData().path, folderPath);
+    this.fileSystemService.createFolder(targetPath);
+  }
+
   removeFolder(fileType: MimicFileType, folderPath: string) {
     const folderRealPath = this.getTargetPath(fileType, folderPath);
     const errorMsg = this.fileSystemService.removeFolder(folderRealPath);
